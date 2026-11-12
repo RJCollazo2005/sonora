@@ -1,0 +1,14 @@
+{
+  "name": "sonora",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sonora: app web para escuchar música, hecha con HTML y Tailwind CSS siguiendo el sistema de diseño Sonora.",
+  "scripts": {
+    "dev": "tailwindcss -i ./src/app.css -o ./dist/app.css --watch",
+    "build": "tailwindcss -i ./src/app.css -o ./dist/app.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.0",
+    "tailwindcss": "^4.1.0"
+  }
+}

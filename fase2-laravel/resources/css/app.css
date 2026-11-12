@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+/* Plantillas Blade y scripts que usan clases de Tailwind */
+@source "../views";
+@source "../js";
+
+/* Fuentes incluidas en el proyecto (Manrope variable 200-800 y JetBrains Mono 400/700), se empaquetan con Vite y funcionan sin internet */
+@font-face { font-family: "Manrope"; font-style: normal; font-weight: 200 800; font-display: swap;
+  src: url("../fonts/manrope-latin-wght-normal.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("../fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 700; font-display: swap;
+  src: url("../fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
+
+/* El tema se elige con data-theme en <html>, no con la preferencia del sistema */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ===== Tokens de Sonora (tal cual el sistema de diseño) ===== */
+:root, [data-theme="dark"] {
+  --surface-base:#0e0e10; --surface-raised:#18181b; --surface-high:#26262b;
+  --line:#3a3a42; --line-strong:#7a7a86; --ink:#f4f2ee; --ink-muted:#a9a9b4;
+  --accent:#ffb020; --accent-hover:#ffc24d; --on-accent:#14110a;
+  --success:#5ec8e5; --danger:#ff6b5b; --focus:#8fd3ff;
+}
+[data-theme="light"] {
+  --surface-base:#faf8f4; --surface-raised:#ffffff; --surface-high:#ece8e0;
+  --line:#d9d4c9; --line-strong:#6b665c; --ink:#17151a; --ink-muted:#55525c;
+  --accent:#a65500; --accent-hover:#8a4500; --on-accent:#ffffff;
+  --success:#0a6d8f; --danger:#b3261e; --focus:#0b5cad;
+}
+
+@theme inline {
+  --color-surface-base:var(--surface-base); --color-surface-raised:var(--surface-raised);
+  --color-surface-high:var(--surface-high); --color-line:var(--line);
+  --color-line-strong:var(--line-strong); --color-ink:var(--ink); --color-ink-muted:var(--ink-muted);
+  --color-accent:var(--accent); --color-accent-hover:var(--accent-hover); --color-on-accent:var(--on-accent);
+  --color-success:var(--success); --color-danger:var(--danger); --color-focus:var(--focus);
+  --font-sans:"Manrope", system-ui, sans-serif;
+  --font-mono:"JetBrains Mono", ui-monospace, monospace;
+  --radius-sm:4px; --radius-md:8px; --radius-lg:16px; --radius-pill:999px;
+  --shadow-raise:0 8px 24px rgb(0 0 0 / 0.4);
+}
+
+/* Escala tipográfica del sistema: display, title, heading, body, body-sm, caption, mono, mono-sm */
+@theme {
+  --text-display:3.5rem;  --text-display--line-height:3.625rem;  --text-display--letter-spacing:-0.02em; --text-display--font-weight:800;
+  --text-title:2rem;      --text-title--line-height:2.25rem;     --text-title--letter-spacing:-0.01em;   --text-title--font-weight:800;
+  --text-heading:1.25rem; --text-heading--line-height:1.625rem;  --text-heading--font-weight:700;
+  --text-body:1rem;       --text-body--line-height:1.5rem;
+  --text-body-sm:0.875rem;--text-body-sm--line-height:1.25rem;   --text-body-sm--font-weight:500;
+  --text-caption:0.75rem; --text-caption--line-height:1rem;      --text-caption--letter-spacing:0.06em;  --text-caption--font-weight:700;
+  --text-mono:0.875rem;   --text-mono--line-height:1.25rem;
+  --text-mono-sm:0.75rem; --text-mono-sm--line-height:1rem;
+}
+
+body { @apply bg-surface-base font-sans text-ink; }
+
+/* Movimiento: 120 ms con suavizado para hover y presionado; nada se repite en bucle */
+@theme {
+  --default-transition-duration: 120ms;
+  --default-transition-timing-function: ease-out;
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* ===== Componentes reutilizables (prefijo snr-) =====
+   En Tailwind v4 se declaran con @utility para poder usar @apply entre ellos */
+@utility snr-focus { @apply focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-focus; }
+@utility snr-btn-primary { @apply snr-focus inline-flex items-center gap-2 rounded-pill bg-accent px-6 py-3 text-body-sm font-bold text-on-accent transition-colors hover:bg-accent-hover; }
+@utility snr-btn-secondary { @apply snr-focus inline-flex items-center gap-2 rounded-pill border-2 border-line-strong px-6 py-3 text-body-sm font-bold text-ink transition-colors hover:bg-surface-high; }
+@utility snr-btn-ghost { @apply snr-focus inline-flex items-center gap-2 rounded-pill px-4 py-3 text-body-sm font-bold text-ink-muted transition-colors hover:bg-surface-high hover:text-ink; }
+@utility snr-icon-btn { @apply snr-focus inline-flex size-10 shrink-0 items-center justify-center rounded-pill text-ink-muted transition-colors hover:bg-surface-high hover:text-ink aria-pressed:text-accent; }
+@utility snr-play { @apply snr-focus inline-flex size-12 shrink-0 items-center justify-center rounded-pill bg-accent text-on-accent transition-colors hover:bg-accent-hover; }
+@utility snr-chip { @apply snr-focus rounded-pill bg-surface-high px-4 py-2 text-caption text-ink uppercase transition-colors aria-pressed:bg-accent aria-pressed:text-on-accent; }
+@utility snr-card { @apply snr-focus block rounded-md bg-surface-raised p-4 transition hover:bg-surface-high hover:shadow-raise; }
+/* Marcador de portada como en componentes.css: barras flex-1, space-1 entre ellas y space-4 de relleno */
+@utility snr-cover { @apply flex aspect-square w-full items-end gap-1 rounded-md bg-surface-high p-4 transition-colors group-hover:bg-surface-base;
+& > span { @apply flex-1 rounded-pill bg-accent; } }
+@utility snr-row { @apply snr-focus grid w-full grid-cols-[24px_1fr_auto] items-center gap-3 rounded-md px-2 py-3 text-left transition-colors hover:bg-surface-high aria-[current=true]:bg-surface-high; }
+@utility snr-search { @apply snr-focus w-full appearance-none [&::-webkit-search-cancel-button]:appearance-none rounded-pill border-2 border-line-strong bg-surface-high px-4 py-3 text-body-sm text-ink placeholder:text-ink-muted; }
+@utility snr-track { @apply h-1 w-full overflow-hidden rounded-pill bg-surface-high; }
+@utility snr-fill { @apply h-1 rounded-pill bg-accent; }
+@utility snr-nav-link { @apply snr-focus flex items-center gap-3 rounded-md px-3 py-2 text-body-sm text-ink-muted transition-colors hover:bg-surface-high hover:text-ink aria-[current=page]:bg-surface-high aria-[current=page]:text-ink; }

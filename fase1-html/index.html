@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inicio · Sonora</title>
+  <link rel="icon" href="assets/logos/sonora-mark-dark.svg" type="image/svg+xml">
+  <!-- Aplica el tema guardado antes de pintar para evitar un destello -->
+  <script>try { document.documentElement.dataset.theme = localStorage.getItem("sonora-tema") || "dark"; } catch (e) {}</script>
+  <link rel="stylesheet" href="dist/app.css">
+</head>
+<body class="min-h-dvh">
+  <a href="#contenido" class="snr-btn-secondary sr-only bg-surface-raised focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50">Saltar al contenido</a>
+
+  <div class="md:grid md:grid-cols-[240px_1fr]">
+    <aside id="barra-lateral" class="sticky top-0 hidden h-dvh border-r border-line bg-surface-raised pb-24 md:block"></aside>
+    <div class="min-w-0">
+      <header id="cabecera-movil" class="flex items-center justify-between px-4 pt-4 md:hidden"></header>
+      <main id="contenido" tabindex="-1" class="mx-auto flex max-w-6xl flex-col gap-8 px-4 pb-44 pt-6 focus:outline-none md:px-8 md:pb-32 md:pt-8">
+        <div class="flex flex-col gap-4">
+          <h1 id="saludo" class="text-title md:text-display">Hola</h1>
+          <div id="filtros" role="group" aria-label="Filtrar contenido" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <section id="sec-recientes" aria-labelledby="t-recientes" class="flex flex-col gap-4">
+          <h2 id="t-recientes" class="text-heading">Recién escuchado</h2>
+          <div id="lista-recientes" class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"></div>
+        </section>
+
+        <section id="sec-playlists" aria-labelledby="t-playlists" class="flex flex-col gap-4">
+          <h2 id="t-playlists" class="text-heading">Tus mezclas</h2>
+          <div id="lista-playlists" class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"></div>
+        </section>
+
+        <section id="sec-albumes" aria-labelledby="t-albumes" class="flex flex-col gap-4">
+          <h2 id="t-albumes" class="text-heading">Álbumes</h2>
+          <div id="lista-albumes" class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div id="barra-reproductor" role="region" aria-label="Reproductor" class="fixed inset-x-0 bottom-16 z-20 border-t border-line bg-surface-raised md:bottom-0"></div>
+  <nav id="nav-movil" aria-label="Principal" class="fixed inset-x-0 bottom-0 z-20 h-16 border-t border-line bg-surface-raised md:hidden"></nav>
+  <p id="aviso" class="sr-only" aria-live="polite"></p>
+
+  <script src="js/icons.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/paginas/inicio.js"></script>
+</body>
+</html>
