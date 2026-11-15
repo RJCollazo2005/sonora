@@ -1,18 +1,27 @@
-{{-- Estructura común de todas las pantallas --}}
-@props(['titulo', 'pagina', 'activa' => null, 'conBarra' => true])
+{{--
+    Plantilla base de Sonora. Cada vista la usa con @extends('layouts.app') y define:
+      @section('titulo', 'Inicio')       → título de la pestaña
+      @section('pagina', 'inicio')       → qué script de resources/js/sonora/paginas se monta
+      @section('activa', 'inicio')       → qué enlace del menú se marca (opcional)
+      @section('sin-barra', 'si')        → oculta la barra del reproductor (opcional)
+      @section('contenido') … @endsection
+--}}
+@php
+    $activa = trim($__env->yieldContent('activa')) ?: null;
+@endphp
 <!doctype html>
 <html lang="es" data-theme="dark">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $titulo }} · Sonora</title>
+    <title>@yield('titulo', 'Inicio') · Sonora</title>
     <link rel="icon" href="{{ asset('logos/sonora-mark-dark.svg') }}" type="image/svg+xml">
     {{-- Aplica el tema guardado antes de pintar para evitar un destello --}}
     <script>try { document.documentElement.dataset.theme = localStorage.getItem('sonora-tema') || 'dark'; } catch (e) {}</script>
     <script>window.sonora = @json($catalogo);</script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-dvh" data-pagina="{{ $pagina }}">
+<body class="min-h-dvh" data-pagina="@yield('pagina')">
     <a href="#contenido" class="snr-btn-secondary sr-only bg-surface-raised focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50">Saltar al contenido</a>
 
     <div class="md:grid md:grid-cols-[240px_1fr]">
@@ -30,12 +39,13 @@
                 <x-button variant="ghost" class="px-3 py-2" data-tema data-corto>Tema claro</x-button>
             </header>
             <main id="contenido" tabindex="-1" class="mx-auto flex max-w-6xl flex-col gap-8 px-4 pb-44 pt-6 focus:outline-none md:px-8 md:pb-32 md:pt-8">
-                {{ $slot }}
+                @yield('contenido')
             </main>
         </div>
     </div>
 
-    @if ($conBarra)
+    @hasSection('sin-barra')
+    @else
         <x-player-bar />
     @endif
     <nav aria-label="Principal" class="fixed inset-x-0 bottom-0 z-20 h-16 border-t border-line bg-surface-raised md:hidden">

@@ -36,8 +36,8 @@
 ### Componentes que reutilizamos
 
 - Cada función de `ui.js` de la fase 1 pasó a un componente Blade: `x-media-card`, `x-song-row`, `x-chip`, `x-button`, `x-portada`, `x-slider`, `x-nav` y `x-player-bar`.
-- `x-layout` reúne la estructura común, y las cinco vistas solo ponen su contenido dentro.
-- `coleccion.blade.php` sirve para playlists y álbumes; solo cambia el controlador que la llama.
+- `layouts/app.blade.php` reúne la estructura común (como en el ejemplo del sistema de diseño), y las cinco vistas la extienden con `@extends` y llenan `@section('contenido')`.
+- `playlist.blade.php` sirve para playlists y álbumes; solo cambia el controlador que la llama.
 - Los estilos (`snr-`) y el reproductor simulado son los mismos de la fase 1, ahora como módulos de Vite.
 
 ### Decisiones tomadas

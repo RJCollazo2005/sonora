@@ -11,7 +11,7 @@ class PlaylistController extends Controller
     {
         $playlist->load('tracks');
 
-        return view('coleccion', [
+        return view('playlist', [
             'coleccion' => $playlist,
             'tipo' => 'Playlist',
             'subtitulo' => $playlist->descripcion,

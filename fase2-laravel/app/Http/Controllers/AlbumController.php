@@ -12,7 +12,7 @@ class AlbumController extends Controller
     {
         $album->load('tracks');
 
-        return view('coleccion', [
+        return view('playlist', [
             'coleccion' => $album,
             'tipo' => 'Álbum',
             'subtitulo' => $album->artista,

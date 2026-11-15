@@ -3,7 +3,7 @@ import { reproductor } from '../reproductor.js';
 import { coleccionPorId } from '../catalogo.js';
 import { marcarFilas, pintarPlay } from '../componentes.js';
 
-export default function coleccion() {
+export default function playlist() {
     const col = coleccionPorId(document.querySelector('[data-coleccion]').dataset.coleccion);
     const bPlay = document.getElementById('accion-play');
     const bGuardar = document.getElementById('accion-guardar');

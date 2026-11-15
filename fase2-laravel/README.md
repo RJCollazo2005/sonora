@@ -47,8 +47,8 @@ Pruebas: `php artisan test` (revisa que todas las pantallas respondan y que la b
 | Ruta | Nombre | Controlador / vista |
 |---|---|---|
 | `/` | `inicio` | `InicioController` → `inicio.blade.php` |
-| `/playlists/{slug}` | `playlists.show` | `PlaylistController@show` → `coleccion.blade.php` |
-| `/albumes/{slug}` | `albumes.show` | `AlbumController@show` → `coleccion.blade.php` |
+| `/playlists/{slug}` | `playlists.show` | `PlaylistController@show` → `playlist.blade.php` |
+| `/albumes/{slug}` | `albumes.show` | `AlbumController@show` → `playlist.blade.php` |
 | `/reproductor` | `reproductor` | vista `reproductor.blade.php` |
 | `/buscar?q=` | `buscar` | `BuscarController` → `buscar.blade.php` |
 | `/biblioteca` | `biblioteca` | vista `biblioteca.blade.php` |
@@ -64,13 +64,43 @@ Una dirección que no existe muestra `errors/404.blade.php` con el estilo de Son
 
 Modelos: `Album` (tiene muchas `Track`), `Track` (pertenece a un `Album` y a varias `Playlist`) y `Playlist` (tiene muchas `Track` en orden). Los datos de ejemplo, todos inventados, están en `database/seeders/MusicaSeeder.php`: 10 canciones, 5 álbumes y 4 playlists.
 
+## Vistas
+
+Organizadas como el ejemplo del sistema de diseño: una plantilla base y una vista por pantalla que la extiende.
+
+```
+resources/views/
+├── layouts/
+│   └── app.blade.php        ← plantilla base: barra lateral, menú móvil y barra del reproductor
+├── inicio.blade.php         ← Inicio
+├── playlist.blade.php       ← Playlist (también muestra álbumes)
+├── reproductor.blade.php    ← Reproductor
+├── buscar.blade.php         ← Buscar
+├── biblioteca.blade.php     ← Tu biblioteca
+├── errors/404.blade.php     ← página no encontrada
+└── components/              ← componentes Blade reutilizables
+```
+
+Cada vista empieza así:
+
+```blade
+@extends('layouts.app')
+
+@section('titulo', 'Inicio')
+@section('pagina', 'inicio')     {{-- qué script de JavaScript se monta --}}
+@section('activa', 'inicio')     {{-- qué enlace del menú se marca --}}
+
+@section('contenido')
+    …
+@endsection
+```
+
 ## Componentes Blade
 
 En `resources/views/components/`:
 
 | Componente | Uso |
 |---|---|
-| `<x-layout>` | Estructura común: barra lateral, cabecera y navegación móvil, barra del reproductor |
 | `<x-button variant="primary|secondary|ghost">` | Botones del sistema; con `href` se vuelve enlace |
 | `<x-chip :activo="true">` | Filtros con `aria-pressed` |
 | `<x-media-card>` y `<x-coleccion-card>` | Tarjeta de playlist o álbum |
@@ -84,7 +114,7 @@ Los estilos están en `resources/css/app.css`: los tokens del sistema y las util
 
 ## JavaScript
 
-`resources/js/app.js` monta la pantalla según `data-pagina` del `<body>`. En `resources/js/sonora/`:
+`resources/js/app.js` monta la pantalla según `@section('pagina')` de cada vista (queda en `data-pagina` del `<body>`). En `resources/js/sonora/`:
 
 - `catalogo.js` lee el catálogo que Laravel manda como JSON (`AppServiceProvider`).
 - `reproductor.js` contiene el estado y la reproducción simulada, que se guardan en `localStorage`.

@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // El reproductor simulado necesita conocer todas las canciones y colecciones.
         // Se comparte con el layout y se entrega al navegador como JSON.
-        View::composer('components.layout', function ($view) {
+        View::composer('layouts.app', function ($view) {
             $view->with('catalogo', [
                 'canciones' => Track::with('album')->orderBy('id')->get()->map(fn ($t) => [
                     'id' => $t->id,
